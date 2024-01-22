@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "826598584271",
+    "firebase_url": "https://clientesadmin-e8fd7-default-rtdb.firebaseio.com",
+    "project_id": "clientesadmin-e8fd7",
+    "storage_bucket": "clientesadmin-e8fd7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:826598584271:android:f8d1b6fefde226af122cba",
+        "android_client_info": {
+          "package_name": "com.aln.clientepro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2h6T1_TDOFh-a9cPufUTCBBB4UGsEll8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
