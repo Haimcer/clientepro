@@ -7,14 +7,14 @@ import '../../globals/globlas_alert.dart';
 import '../../login/login_page.dart';
 import '../../model/usuario_model.dart';
 
-class DeleteByIdUsuario {
-  Future<bool> deleteByIdUsuario(BuildContext context, {var novoToken}) async {
+class DeleteCliente {
+  Future<bool> deleteCliente(BuildContext context,
+      {var novoToken, required String? clientId}) async {
     final userIds = Provider.of<UsuarioIds>(context, listen: false);
     final userInfos = Provider.of<UsuarioInfos>(context, listen: false);
     try {
       final response = await http.delete(
-        Uri.parse(
-            "https://cliente-pro.onrender.com/excluir-usuario/${userInfos.usuarioModel?.id}"),
+        Uri.parse("https://cliente-pro.onrender.com/excluir-cliente/$clientId"),
         headers: {
           'Authorization': "${userIds.idToken}",
         },
@@ -22,10 +22,7 @@ class DeleteByIdUsuario {
       print("response.statusCode: ${response.statusCode}");
       if (response.statusCode >= 200 && response.statusCode < 206) {
         userInfos.usuarioModel = UsuarioModel();
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => LoginPage()),
-          (route) => false,
-        );
+
         return true;
       }
 
@@ -80,9 +77,7 @@ class DeleteByIdUsuario {
         if (novoTokenAux != null && novoToken == null) {
           //tem que ser a primeira tentativa, por isso novoToken == null
           // ignore: use_build_context_synchronously
-          return deleteByIdUsuario(
-            context,
-          );
+          return deleteCliente(context, clientId: clientId);
         } else {
           // ignore: use_build_context_synchronously
           GlobalsAlert(context).alertWarning(

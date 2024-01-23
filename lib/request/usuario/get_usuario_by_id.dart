@@ -36,7 +36,24 @@ class GetUsuarioById {
       if (returnData.statusCode == 503) {
         return null;
       }
+
       if (returnData.statusCode == 500) {
+        GlobalsAlert(contextAux).alertWarning(contextAux,
+            text: "Ops! Erro desconhecido.\nTente novamente mais tarde");
+        return false;
+      }
+
+      if (returnData.statusCode == 503) {
+        // ignore: use_build_context_synchronously
+        GlobalsAlert(contextAux).alertWarning(
+          contextAux,
+          text:
+              "Ops! tivemos um problema mas ja estamos trabalhando para resolve-lo.\nTente entrar na página novamente mais tarde",
+        );
+        return null;
+      }
+
+      if (returnData.statusCode == 401) {
         // TOKEN INVÁLIDO: tenta renovar o token
         final novoTokenAux = await userIds.setRenovaToken();
         if (novoTokenAux != null && novoToken == null) {

@@ -21,6 +21,8 @@ import 'login/logar/recovery/recovery_functions.dart';
 import 'login/signIn/signIn_functions.dart';
 import 'login/store/login_store.dart';
 import 'model/usuario_model.dart';
+import 'pages/clients/page_clients_functions.dart';
+import 'pages/clients/store/client_store.dart';
 import 'pages/home/page_home_functions.dart';
 import 'pages/home/page_home_principal.dart';
 import 'pages/home/store/home_store.dart';
@@ -53,7 +55,10 @@ void main() async {
         Provider<LoginStore>(create: (context) => LoginStore()),
         Provider<HomePrincipalFunctions>(
             create: (context) => HomePrincipalFunctions(context)),
+        Provider<ClientsPrincipalFunctions>(
+            create: (context) => ClientsPrincipalFunctions(context)),
         Provider<HomeStore>(create: (context) => HomeStore()),
+        Provider<ClientStore>(create: (context) => ClientStore()),
         Provider<LoginFunctions>(
           create: (context) => LoginFunctions(context),
         ),

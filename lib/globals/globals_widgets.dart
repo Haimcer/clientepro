@@ -127,7 +127,7 @@ class GlobalsWidgets {
                           sufixWidget ?? Container(),
                         ],
                       ),
-                Expanded(
+                Center(
                   child: titulo == null
                       ? Container()
                       : Column(
@@ -161,6 +161,15 @@ class GlobalsWidgets {
           ),
         ],
       ),
+    );
+  }
+
+  Widget divisoria() {
+    final globalsThemeVar = Provider.of<GlobalsThemeVar>(context);
+    return Divider(
+      color: globalsThemeVar.iGlobalsColors.textColorMedio,
+      endIndent: GlobalsSizes().marginSize,
+      indent: GlobalsSizes().marginSize,
     );
   }
 }

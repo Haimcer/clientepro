@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../globals/globals_users_widget.dart';
 import '../../globals/globals_widgets.dart';
+import '../clients/page_clients_principal.dart';
 
 class PagePrincipalWidget {
   BuildContext context;
@@ -49,11 +50,20 @@ class PagePrincipalWidget {
                       return Container(
                         margin: EdgeInsets.symmetric(
                             horizontal: GlobalsSizes().marginSize),
-                        child: CustomCard(context).cardLateral(context,
-                            interesses: homeprincipalfunctions
-                                .listCliente[index].interesse,
-                            name:
-                                homeprincipalfunctions.listCliente[index].nome),
+                        child: InkWell(
+                          onTap: () =>
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => PageClientsPrincipal(
+                                        clienteSelecionado:
+                                            homeprincipalfunctions
+                                                .listCliente[index],
+                                      ))),
+                          child: CustomCard(context).cardLateral(context,
+                              interesses: homeprincipalfunctions
+                                  .listCliente[index].interesse,
+                              name: homeprincipalfunctions
+                                  .listCliente[index].nome),
+                        ),
                       );
                     },
                   ))

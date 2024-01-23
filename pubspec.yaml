@@ -34,6 +34,7 @@ dependencies:
   firebase_auth: ^4.16.0
   firebase_core: ^2.24.2
   introduction_screen: ^3.1.11
+  badges: ^3.1.2
 
 flutter_native_splash:
   color: "#FFA726"
@@ -62,3 +63,4 @@ flutter:
     - assets/img_error.png
     - assets/img_capa.jpg
     - assets/interesses/
+    - assets/icons/

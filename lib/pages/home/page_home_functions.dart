@@ -15,6 +15,8 @@ class HomePrincipalFunctions {
 
   Future homeFunctionPrincipal(
       UsuarioInfos usuarioInfos, HomeStore homeStore) async {
+    homeStore.setListInteressesClear();
+    listCliente = [];
     try {
       var result = await GetAllClientes().getAllClientes(context,
           usuarioid: usuarioInfos.usuarioModel?.id ?? '');

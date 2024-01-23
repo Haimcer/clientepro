@@ -2,31 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import '../../controllers/usuario_ids.dart';
-import '../../controllers/usuario_infos.dart';
 import '../../globals/globlas_alert.dart';
 import '../../login/login_page.dart';
-import '../../model/usuario_model.dart';
 
-class DeleteByIdUsuario {
-  Future<bool> deleteByIdUsuario(BuildContext context, {var novoToken}) async {
+class DeleteInteresseCliente {
+  Future<bool> deleteInteresseCliente(BuildContext context,
+      {var novoToken,
+      required String? clientId,
+      required String? interesseId}) async {
     final userIds = Provider.of<UsuarioIds>(context, listen: false);
-    final userInfos = Provider.of<UsuarioInfos>(context, listen: false);
     try {
       final response = await http.delete(
         Uri.parse(
-            "https://cliente-pro.onrender.com/excluir-usuario/${userInfos.usuarioModel?.id}"),
+            "https://cliente-pro.onrender.com/excluir-interesses-cliente/$clientId/$interesseId"),
         headers: {
+          'Content-Type': 'application/json',
           'Authorization': "${userIds.idToken}",
         },
       );
       print("response.statusCode: ${response.statusCode}");
       if (response.statusCode >= 200 && response.statusCode < 206) {
-        userInfos.usuarioModel = UsuarioModel();
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => LoginPage()),
-          (route) => false,
-        );
         return true;
+      }
+
+      if (response.statusCode == 500) {
+        GlobalsAlert(context).alertWarning(context,
+            text: "Ops! Erro desconhecido.\nTente novamente mais tarde");
+        return false;
       }
 
       if (response.statusCode == 503) {
@@ -68,21 +70,14 @@ class DeleteByIdUsuario {
         return false;
       }
 
-      if (response.statusCode == 500) {
-        GlobalsAlert(context).alertWarning(context,
-            text: "Ops! Erro desconhecido.\nTente novamente mais tarde");
-        return false;
-      }
-
       if (response.statusCode == 401) {
         // TOKEN INVÁLIDO: tenta renovar o token
         final novoTokenAux = await userIds.setRenovaToken();
         if (novoTokenAux != null && novoToken == null) {
           //tem que ser a primeira tentativa, por isso novoToken == null
           // ignore: use_build_context_synchronously
-          return deleteByIdUsuario(
-            context,
-          );
+          return deleteInteresseCliente(context,
+              clientId: clientId, interesseId: interesseId);
         } else {
           // ignore: use_build_context_synchronously
           GlobalsAlert(context).alertWarning(
