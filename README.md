@@ -1,16 +1,31 @@
-# clientepro
+# ClientePRO - Leitor de Interesses
 
-A new Flutter project.
+Aplicativo ClientePRO
 
-## Getting Started
+## Descrição
 
-This project is a starting point for a Flutter application.
+Este aplicativo ClientePRO oferece uma maneira fácil de gerenciar os interesses dos seus clientes. Ele permite visualizar e gerenciar os interesses, adicionando ou removendo conforme necessário.
 
-A few resources to get you started if this is your first Flutter project:
+## Configuração e Execução
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+1. Instale as dependências: `flutter pub get`
+2. Execute o aplicativo: `flutter run`
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Estrutura do Projeto
+
+- `/lib`
+  - `/pages`
+    - `/home`
+      - `/store`
+        - `home_store.dart` (Lógica MobX)
+      - `home_page_principal.dart` (Página principal)
+      - `home_page_functions.dart` (Funcionalidades da página principal)
+      - `home_page_widgets.dart` (Widgets da página principal)
+    - `/clientes`
+      - `clientes_page_principal.dart` (Página de clientes)
+      - ...
+
+
+## APK para Testes
+
+- O arquivo APK da versão final do projeto está disponível na raiz do projeto com o nome clientPRO.apk
