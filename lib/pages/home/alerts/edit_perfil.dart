@@ -18,8 +18,8 @@ class EditPerfil {
     final globalsThemeVar =
         Provider.of<GlobalsThemeVar>(context, listen: false);
     final usurioInfos = Provider.of<UsuarioInfos>(context, listen: false);
-    final globalsStore = Provider.of<GlobalsStore>(context);
-
+    final globalsStore = Provider.of<GlobalsStore>(context, listen: false);
+    nomeController.text = usurioInfos.usuarioModel?.nome ?? '';
     return AlertDialog(
       title: Center(
         child: Column(

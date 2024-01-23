@@ -41,6 +41,21 @@ mixin _$ClientStore on _ClientStore, Store {
     });
   }
 
+  late final _$isEditAtom = Atom(name: '_ClientStore.isEdit', context: context);
+
+  @override
+  bool get isEdit {
+    _$isEditAtom.reportRead();
+    return super.isEdit;
+  }
+
+  @override
+  set isEdit(bool value) {
+    _$isEditAtom.reportWrite(value, super.isEdit, () {
+      super.isEdit = value;
+    });
+  }
+
   late final _$isSelectedInteresseAtom =
       Atom(name: '_ClientStore.isSelectedInteresse', context: context);
 
@@ -54,6 +69,21 @@ mixin _$ClientStore on _ClientStore, Store {
   set isSelectedInteresse(bool value) {
     _$isSelectedInteresseAtom.reportWrite(value, super.isSelectedInteresse, () {
       super.isSelectedInteresse = value;
+    });
+  }
+
+  late final _$clientAtom = Atom(name: '_ClientStore.client', context: context);
+
+  @override
+  ClienteModel get client {
+    _$clientAtom.reportRead();
+    return super.client;
+  }
+
+  @override
+  set client(ClienteModel value) {
+    _$clientAtom.reportWrite(value, super.client, () {
+      super.client = value;
     });
   }
 
@@ -75,6 +105,28 @@ mixin _$ClientStore on _ClientStore, Store {
 
   late final _$_ClientStoreActionController =
       ActionController(name: '_ClientStore', context: context);
+
+  @override
+  void setIsEdit(bool value) {
+    final _$actionInfo = _$_ClientStoreActionController.startAction(
+        name: '_ClientStore.setIsEdit');
+    try {
+      return super.setIsEdit(value);
+    } finally {
+      _$_ClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setClient(ClienteModel value) {
+    final _$actionInfo = _$_ClientStoreActionController.startAction(
+        name: '_ClientStore.setClient');
+    try {
+      return super.setClient(value);
+    } finally {
+      _$_ClientStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void restartSelectedListImage() {
@@ -202,7 +254,9 @@ mixin _$ClientStore on _ClientStore, Store {
     return '''
 listInteresses: ${listInteresses},
 isSelected: ${isSelected},
+isEdit: ${isEdit},
 isSelectedInteresse: ${isSelectedInteresse},
+client: ${client},
 listImage: ${listImage}
     ''';
   }

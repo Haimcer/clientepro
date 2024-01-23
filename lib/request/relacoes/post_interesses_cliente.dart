@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import '../../controllers/usuario_ids.dart';
 import '../../globals/globlas_alert.dart';
-import '../../login/login_page.dart';
 
 class PostInteressesCliente {
   Future postInteressesCliente(
@@ -14,8 +13,6 @@ class PostInteressesCliente {
     var novoToken,
   }) async {
     final userIds = Provider.of<UsuarioIds>(contextAux, listen: false);
-    print(clienteId);
-    print(listInteresses);
 
     try {
       final response = await http.post(
@@ -49,7 +46,7 @@ class PostInteressesCliente {
       if (response.statusCode == 500) {
         GlobalsAlert(contextAux).alertWarning(contextAux,
             text: "Ops! Erro desconhecido.\nTente novamente mais tarde");
-        return false;
+        return null;
       }
 
       if (response.statusCode == 503) {
@@ -87,17 +84,7 @@ class PostInteressesCliente {
         return null;
       }
 
-      print('AAAAAAAAAAAAAAAAAAAAAAAAAA');
       print(response.body);
-      GlobalsAlert(contextAux).alertWarning(
-        contextAux,
-        text: "Faça login novamente para continuar usando o aplicativo.",
-        onTap: () {
-          //GlobalsFunctions().btnSair(contextAux);
-          Navigator.of(contextAux).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginPage()));
-        },
-      );
     } catch (error) {
       print("error: $error");
     }

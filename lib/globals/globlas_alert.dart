@@ -45,10 +45,7 @@ class GlobalsAlert {
         text: text,
         showCancelBtn: showCancelBtn,
         cancelBtnText: cancelBtnText ?? "Cancelar",
-        onCancelBtnTap: onTapCancel ??
-            () {
-              SystemNavigator.pop();
-            },
+        onCancelBtnTap: onTapCancel ?? () {},
         confirmBtnText: confirmBtnText ?? "Ok",
         backgroundColor: globalsThemeVar.iGlobalsColors.textColorFraco,
         confirmBtnColor: globalsThemeVar.iGlobalsColors.secundaryColor,

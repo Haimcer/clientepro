@@ -1,7 +1,6 @@
 import 'package:clientepro/controllers/usuario_infos.dart';
+import 'package:clientepro/model/interesses_model.dart';
 import 'package:clientepro/pages/home/options/custom_drawer.dart';
-import 'package:clientepro/pages/home/page_home_functions.dart';
-import 'package:clientepro/pages/home/page_home_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
@@ -10,31 +9,37 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../globals/globals_widgets.dart';
 import '../../globals/store/globals_store.dart';
 import '../../globals/theme_controller.dart';
-import 'store/home_store.dart';
+import 'page_interesses_functions.dart';
+import 'page_interesses_widgets.dart';
+import 'store/interesses_store.dart';
 
-class PageHomePrincipal extends StatefulWidget {
-  const PageHomePrincipal({super.key});
+class PageInteressesPrincipal extends StatefulWidget {
+  PageInteressesPrincipal({super.key, required this.interesseModel});
+
+  InteressesModel interesseModel;
 
   @override
-  State<PageHomePrincipal> createState() => _PageHomePrincipalState();
+  State<PageInteressesPrincipal> createState() =>
+      _PageInteressesPrincipalState();
 }
 
-class _PageHomePrincipalState extends State<PageHomePrincipal> {
+class _PageInteressesPrincipalState extends State<PageInteressesPrincipal> {
   late SharedPreferences prefs;
   late GlobalsThemeVar globalsThemeVar;
-  late HomePrincipalFunctions homePrincipalFunctions;
+  late InteressesPrincipalFunctions interessesPrincipalFunctions;
   late GlobalsStore globalsStore;
-  late HomeStore homeStore;
+  late InteressesStore interessesStore;
   late UsuarioInfos usuarioInfos;
   bool entrouIniciaPage = false;
   bool carregando = true;
 
   @override
   void didChangeDependencies() {
-    homePrincipalFunctions = Provider.of<HomePrincipalFunctions>(context);
+    interessesPrincipalFunctions =
+        Provider.of<InteressesPrincipalFunctions>(context);
     globalsStore = Provider.of<GlobalsStore>(context);
     globalsThemeVar = Provider.of<GlobalsThemeVar>(context);
-    homeStore = Provider.of<HomeStore>(context);
+    interessesStore = Provider.of<InteressesStore>(context);
     usuarioInfos = Provider.of<UsuarioInfos>(context);
     if (!entrouIniciaPage) {
       _iniciaPage();
@@ -45,7 +50,8 @@ class _PageHomePrincipalState extends State<PageHomePrincipal> {
 
   Future _iniciaPage() async {
     entrouIniciaPage = true;
-    await homePrincipalFunctions.homeFunctionPrincipal(usuarioInfos, homeStore);
+    await interessesPrincipalFunctions.interessesFunctionPrincipal(
+        usuarioInfos, interessesStore, widget.interesseModel);
     if (!mounted) return;
     setState(() {
       carregando = false;
@@ -61,9 +67,9 @@ class _PageHomePrincipalState extends State<PageHomePrincipal> {
       body: RefreshIndicator(
         color: globalsThemeVar.iGlobalsColors.primaryColor,
         onRefresh: () async {
-          homeStore.setListModelMobXClientXClear();
-          await homePrincipalFunctions.homeFunctionPrincipal(
-              usuarioInfos, homeStore);
+          interessesStore.setListInteressesClear();
+          await interessesPrincipalFunctions.interessesFunctionPrincipal(
+              usuarioInfos, interessesStore, widget.interesseModel);
         },
         child: Stack(
           children: [
@@ -74,8 +80,11 @@ class _PageHomePrincipalState extends State<PageHomePrincipal> {
                   width: MediaQuery.of(innerContext).size.width,
                   child: carregando
                       ? GlobalsWidgets(innerContext).loading()
-                      : PagePrincipalWidget(innerContext)
-                          .principalWidget(innerContext),
+                      : PageInteressesWidget(
+                              innerContext, widget.interesseModel.descricao)
+                          .principalWidget(
+                          innerContext,
+                        ),
                 );
               },
             ),

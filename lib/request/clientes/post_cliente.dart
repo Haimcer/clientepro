@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../../controllers/usuario_ids.dart';
 import '../../controllers/usuario_infos.dart';
 import '../../globals/globlas_alert.dart';
-import '../../login/login_page.dart';
+import '../../globals/store/globals_store.dart';
 
 class PostCliente {
   Future postCliente(
@@ -16,8 +16,7 @@ class PostCliente {
   }) async {
     final userIds = Provider.of<UsuarioIds>(contextAux, listen: false);
     final usurioInfos = Provider.of<UsuarioInfos>(contextAux, listen: false);
-    print(nome);
-    print(email);
+    final globalsStore = Provider.of<GlobalsStore>(contextAux, listen: false);
 
     try {
       final response = await http.post(
@@ -34,6 +33,7 @@ class PostCliente {
       );
 
       if (response.statusCode >= 200 && response.statusCode < 206) {
+        print(response.body);
         var dataReturn = await json.decode(response.body);
         return dataReturn;
       }
@@ -84,29 +84,33 @@ class PostCliente {
               //GlobalsFunctions().btnSair(contextAux);
               Navigator.of(contextAux, rootNavigator: true).pop();
             },
+            onTapCancel: () {
+              //GlobalsFunctions().btnSair(contextAux);
+              Navigator.of(contextAux, rootNavigator: true).pop();
+            },
           );
         }
         return null;
       }
 
-      print('AAAAAAAAAAAAAAAAAAAAAAAAAA');
+      if (response.statusCode == 400) {
+        globalsStore.setLoading(false);
+        var dataReturn = await json.decode(response.body);
+        GlobalsAlert(contextAux).alertError(
+          contextAux,
+          text: dataReturn["erro"],
+        );
+        return null;
+      }
+
       print(response.body);
-      GlobalsAlert(contextAux).alertWarning(
-        contextAux,
-        text: "Faça login novamente para continuar usando o aplicativo.",
-        onTap: () {
-          //GlobalsFunctions().btnSair(contextAux);
-          Navigator.of(contextAux).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginPage()));
-        },
-      );
     } catch (error) {
       print("error: $error");
     }
     // ignore: use_build_context_synchronously
     GlobalsAlert(contextAux).alertError(
       contextAux,
-      text: "Ops! Erro ao criar usuário.\nTente novamente mais tarde",
+      text: "Ops! Erro ao criar cliente.\nTente novamente mais tarde",
     );
     return null;
   }

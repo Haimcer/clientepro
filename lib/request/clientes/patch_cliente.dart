@@ -27,12 +27,18 @@ class PatchClient {
           'Content-Type': 'application/json',
           'Authorization': "${userIds.idToken}",
         },
-        body: jsonEncode({
-          "id": idClient,
-          "nome": nome,
-          "usuario_id": userInfos.usuarioModel?.id,
-          "email": email
-        }),
+        body: email == null
+            ? jsonEncode({
+                "id": idClient,
+                "nome": nome,
+                "usuario_id": userInfos.usuarioModel?.id,
+              })
+            : jsonEncode({
+                "id": idClient,
+                "nome": nome,
+                "usuario_id": userInfos.usuarioModel?.id,
+                "email": email
+              }),
       );
 
       if (response.statusCode >= 200 && response.statusCode < 206) {

@@ -5,12 +5,12 @@ import 'package:http/http.dart' as http;
 
 import '../../controllers/usuario_ids.dart';
 import '../../globals/globlas_alert.dart';
-import '../../login/login_page.dart';
+import '../../globals/store/globals_store.dart';
 
 class GetAllInteresses {
   Future getAllInteresses(BuildContext contextAux, {var novoToken}) async {
     final userIds = Provider.of<UsuarioIds>(contextAux, listen: false);
-    print("${userIds.idToken}");
+    final globalsStore = Provider.of<GlobalsStore>(contextAux, listen: false);
     try {
       final returnData = await http.get(
         Uri.parse("https://cliente-pro.onrender.com/consultar-interesses"),
@@ -18,9 +18,6 @@ class GetAllInteresses {
           'Authorization': "${userIds.idToken}",
         },
       );
-      print(
-          'INTERESSES *******************************************************************');
-      print(returnData.body);
 
       if (returnData.statusCode >= 200 && returnData.statusCode < 206) {
         if (returnData.body == '') return '';
@@ -65,15 +62,16 @@ class GetAllInteresses {
         }
         return null;
       }
-      GlobalsAlert(contextAux).alertWarning(
-        contextAux,
-        text: "Faça login novamente para continuar usando o aplicativo.",
-        onTap: () {
-          //GlobalsFunctions().btnSair(contextAux);
-          Navigator.of(contextAux).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginPage()));
-        },
-      );
+      if (returnData.statusCode == 400) {
+        var returnMessage = await json.decode(returnData.body);
+        globalsStore.setLoading(false);
+        GlobalsAlert(contextAux).alertError(
+          contextAux,
+          text: returnMessage["erro"],
+        );
+
+        return null;
+      }
     } catch (error) {
       print("error: $error");
     }

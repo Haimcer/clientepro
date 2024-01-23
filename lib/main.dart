@@ -26,6 +26,8 @@ import 'pages/clients/store/client_store.dart';
 import 'pages/home/page_home_functions.dart';
 import 'pages/home/page_home_principal.dart';
 import 'pages/home/store/home_store.dart';
+import 'pages/interesses/page_interesses_functions.dart';
+import 'pages/interesses/store/interesses_store.dart';
 import 'pages/introduction/introduction_page.dart';
 import 'request/usuario/get_usuario_by_id.dart';
 import 'request/usuario/post_usuario.dart';
@@ -55,9 +57,12 @@ void main() async {
         Provider<LoginStore>(create: (context) => LoginStore()),
         Provider<HomePrincipalFunctions>(
             create: (context) => HomePrincipalFunctions(context)),
+        Provider<InteressesPrincipalFunctions>(
+            create: (context) => InteressesPrincipalFunctions(context)),
         Provider<ClientsPrincipalFunctions>(
             create: (context) => ClientsPrincipalFunctions(context)),
         Provider<HomeStore>(create: (context) => HomeStore()),
+        Provider<InteressesStore>(create: (context) => InteressesStore()),
         Provider<ClientStore>(create: (context) => ClientStore()),
         Provider<LoginFunctions>(
           create: (context) => LoginFunctions(context),

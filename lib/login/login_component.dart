@@ -37,7 +37,7 @@ class LoginComponent {
                     gradient: globalsThemeVar.iGlobalsColors.colorGradiente,
                   ),
                   child: Image.asset(
-                    'assets/images/app/logo-512-bco-transp.png',
+                    'assets/logo.png',
                     fit: BoxFit.cover,
                   ),
                 ),

@@ -5,8 +5,6 @@ import 'package:clientepro/globals/globals_sizes.dart';
 import 'package:clientepro/globals/globals_styles.dart';
 import 'package:clientepro/globals/globlas_alert.dart';
 import 'package:clientepro/model/cliente_model.dart';
-import 'package:clientepro/request/clientes/post_cliente.dart';
-import 'package:clientepro/request/relacoes/post_interesses_cliente.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:clientepro/pages/home/store/home_store.dart';
@@ -27,9 +25,9 @@ class EditClient {
     final homestore = Provider.of<HomeStore>(context, listen: false);
     final clientstore = Provider.of<ClientStore>(context, listen: false);
     final globalsStore = Provider.of<GlobalsStore>(context);
-    List<String> listInteresses = [];
     homestore.restartSelectedListInteresse();
-
+    nomeController.text = clientAux.nome;
+    emailController.text = clientAux.email;
     return AlertDialog(
       title: Center(
         child:
@@ -87,21 +85,23 @@ class EditClient {
         ),
         ElevatedButton(
           onPressed: () async {
-            if (emailController.text == '' || nomeController.text == '') {
+            if (nomeController.text == '') {
               GlobalsAlert(context).alertWarning(context,
                   text:
                       'Nome ou email estão vazios por favor verifique os dados!');
               return;
             }
-            if (!GlobalsFunctions().validaEmail(emailController.text)) {
-              GlobalsAlert(context).alertWarning(context,
-                  text: 'Email inválido por favor verifique os dados!');
-              return;
+            if (emailController.text != '') {
+              if (!GlobalsFunctions().validaEmail(emailController.text)) {
+                GlobalsAlert(context).alertWarning(context,
+                    text: 'Email inválido por favor verifique os dados!');
+                return;
+              }
             }
             globalsStore.setLoading(true);
             var result = await PatchClient().patchClient(context,
                 idClient: clientAux.id,
-                email: emailController.text,
+                email: emailController.text != '' ? emailController.text : null,
                 nome: nomeController.text);
             if (result != null) {
               ClienteModel cliente = ClienteModel.fromJson(result);
@@ -116,16 +116,14 @@ class EditClient {
             ),
           ),
           child: globalsStore.loading
-              ? Container(
-                  child: SizedBox(
-                    height: GlobalsSizes().marginSize,
-                    width: GlobalsSizes().marginSize,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                        color: globalsThemeVar
-                            .iGlobalsColors.textColorPrimaryInverse,
-                      ),
+              ? SizedBox(
+                  height: GlobalsSizes().marginSize,
+                  width: GlobalsSizes().marginSize,
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      color: globalsThemeVar
+                          .iGlobalsColors.textColorPrimaryInverse,
                     ),
                   ),
                 )

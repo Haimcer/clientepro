@@ -19,7 +19,6 @@ class DeleteByIdUsuario {
           'Authorization': "${userIds.idToken}",
         },
       );
-      print("response.statusCode: ${response.statusCode}");
       if (response.statusCode >= 200 && response.statusCode < 206) {
         userInfos.usuarioModel = UsuarioModel();
         Navigator.of(context).pushAndRemoveUntil(

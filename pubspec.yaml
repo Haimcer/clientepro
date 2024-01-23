@@ -62,5 +62,7 @@ flutter:
   assets:
     - assets/img_error.png
     - assets/img_capa.jpg
+    - assets/logo.png
     - assets/interesses/
     - assets/icons/
+    - assets/introduction/

@@ -15,11 +15,6 @@ class PostUsuario {
     var novoToken,
   }) async {
     final userIds = Provider.of<UsuarioIds>(contextAux, listen: false);
-
-    print(nome);
-    print(email);
-    print(uid);
-
     try {
       final response = await http.post(
         Uri.parse("https://cliente-pro.onrender.com/cadastrarusuario"),
@@ -89,8 +84,6 @@ class PostUsuario {
         }
         return null;
       }
-
-      print('AAAAAAAAAAAAAAAAAAAAAAAAAA');
       print(response.body);
       GlobalsAlert(contextAux).alertWarning(
         contextAux,

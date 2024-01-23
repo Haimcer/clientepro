@@ -11,9 +11,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
 import 'package:clientepro/pages/home/store/home_store.dart';
+import '../../../controllers/usuario_infos.dart';
 import '../../../globals/globals_functions.dart';
 import '../../../globals/store/globals_store.dart';
 import '../../../globals/theme_controller.dart';
+import '../../../request/clientes/get_clientes.dart';
 import '../options/grid_image_client.dart';
 
 class AddClient {
@@ -24,7 +26,8 @@ class AddClient {
     final globalsThemeVar =
         Provider.of<GlobalsThemeVar>(context, listen: false);
     final homestore = Provider.of<HomeStore>(context, listen: false);
-    final globalsStore = Provider.of<GlobalsStore>(context);
+    final usurioInfos = Provider.of<UsuarioInfos>(context, listen: false);
+    final globalsStore = Provider.of<GlobalsStore>(context, listen: false);
     List<String> listInteresses = [];
     homestore.restartSelectedListInteresse();
 
@@ -122,6 +125,24 @@ class AddClient {
             if (cliente.id != null) {
               PostInteressesCliente().postInteressesCliente(context,
                   clienteId: cliente.id, listInteresses: listInteresses);
+              homestore.setListModelMobXClientXClear();
+            }
+
+            List<ClienteModel> listCliente = [];
+            try {
+              var result = await GetAllClientes().getAllClientes(context,
+                  usuarioid: usurioInfos.usuarioModel?.id ?? '');
+
+              if (result != null) {
+                result.forEach((cliente) {
+                  listCliente.add(ClienteModel.fromJson(cliente));
+                });
+              }
+
+              homestore.setAllListModelMobXClient(listCliente);
+            } catch (e) {
+              globalsStore.setLoading(false);
+              print(e);
             }
             globalsStore.setLoading(false);
             Navigator.pop(context);

@@ -11,7 +11,6 @@ class GetAllClientes {
   Future getAllClientes(BuildContext contextAux,
       {var novoToken, required String usuarioid}) async {
     final userIds = Provider.of<UsuarioIds>(contextAux, listen: false);
-    print("${userIds.idToken}");
     try {
       final returnData = await http.get(
         Uri.parse(
@@ -20,9 +19,6 @@ class GetAllClientes {
           'Authorization': "${userIds.idToken}",
         },
       );
-      print(
-          'CLIENTE *******************************************************************');
-      print(returnData.body);
 
       if (returnData.statusCode >= 200 && returnData.statusCode < 206) {
         if (returnData.body == '') return '';

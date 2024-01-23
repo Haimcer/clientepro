@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import '../../controllers/usuario_ids.dart';
-import '../../controllers/usuario_infos.dart';
 import '../../globals/globlas_alert.dart';
 import '../../login/login_page.dart';
-import '../../model/usuario_model.dart';
 
 class DeleteCliente {
   Future<bool> deleteCliente(BuildContext context,
       {var novoToken, required String? clientId}) async {
     final userIds = Provider.of<UsuarioIds>(context, listen: false);
-    final userInfos = Provider.of<UsuarioInfos>(context, listen: false);
     try {
       final response = await http.delete(
         Uri.parse("https://cliente-pro.onrender.com/excluir-cliente/$clientId"),
@@ -21,8 +18,6 @@ class DeleteCliente {
       );
       print("response.statusCode: ${response.statusCode}");
       if (response.statusCode >= 200 && response.statusCode < 206) {
-        userInfos.usuarioModel = UsuarioModel();
-
         return true;
       }
 
@@ -66,6 +61,7 @@ class DeleteCliente {
       }
 
       if (response.statusCode == 500) {
+        print(response.body);
         GlobalsAlert(context).alertWarning(context,
             text: "Ops! Erro desconhecido.\nTente novamente mais tarde");
         return false;

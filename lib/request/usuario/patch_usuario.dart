@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../controllers/usuario_ids.dart';
 import '../../globals/globlas_alert.dart';
@@ -18,8 +17,6 @@ class PatchUsuario {
     var novoToken,
   }) async {
     final userIds = Provider.of<UsuarioIds>(contextAux, listen: false);
-    print(idUsuario);
-    print(nome);
     try {
       final response = await http.patch(
         Uri.parse("https://cliente-pro.onrender.com/atualizarperfil"),
@@ -72,17 +69,7 @@ class PatchUsuario {
         }
         return null;
       }
-      print('AAAAAAAAAAAAAAAAAAAAAAAAAA');
       print(response.body);
-      GlobalsAlert(contextAux).alertWarning(
-        contextAux,
-        text: "Faça login novamente para continuar usando o aplicativo.",
-        onTap: () {
-          //GlobalsFunctions().btnSair(contextAux);
-          Navigator.of(contextAux).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginPage()));
-        },
-      );
     } catch (e) {
       print(e);
       GlobalsAlert(contextAux).alertWarning(

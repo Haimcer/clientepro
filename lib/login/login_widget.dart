@@ -45,7 +45,7 @@ class LoginWidget {
           ),
           SizedBox(height: GlobalsSizes().marginSize / 2),
           Text(
-            'Bem vindo !!',
+            'Comece agora sua aventura!',
             style: TextStyle(
               color: globalsThemeVar.iGlobalsColors.textColorMedio,
               fontSize: GlobalsSizes().sizeTextMedio,

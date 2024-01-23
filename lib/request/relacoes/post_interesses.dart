@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import '../../controllers/usuario_ids.dart';
 import '../../globals/globlas_alert.dart';
-import '../../login/login_page.dart';
+import '../../globals/store/globals_store.dart';
 
 class PostInteresses {
   Future postInteresses(
@@ -14,8 +14,7 @@ class PostInteresses {
     var novoToken,
   }) async {
     final userIds = Provider.of<UsuarioIds>(contextAux, listen: false);
-    print(title);
-    print(path);
+    final globalsStore = Provider.of<GlobalsStore>(contextAux, listen: false);
 
     try {
       final response = await http.post(
@@ -83,17 +82,18 @@ class PostInteresses {
         return null;
       }
 
-      print('AAAAAAAAAAAAAAAAAAAAAAAAAA');
+      if (response.statusCode == 400) {
+        var dataReturn = await json.decode(response.body);
+        globalsStore.setLoading(false);
+        GlobalsAlert(contextAux).alertError(
+          contextAux,
+          text: dataReturn["erro"],
+        );
+
+        return null;
+      }
+
       print(response.body);
-      GlobalsAlert(contextAux).alertWarning(
-        contextAux,
-        text: "Faça login novamente para continuar usando o aplicativo.",
-        onTap: () {
-          //GlobalsFunctions().btnSair(contextAux);
-          Navigator.of(contextAux).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginPage()));
-        },
-      );
     } catch (error) {
       print("error: $error");
     }

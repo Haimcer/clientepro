@@ -5,7 +5,6 @@ import 'package:http/http.dart' as http;
 
 import '../../controllers/usuario_ids.dart';
 import '../../globals/globlas_alert.dart';
-import '../../login/login_page.dart';
 
 class GetIntessesClientes {
   Future getInteressesClientes(BuildContext contextAux,
@@ -13,21 +12,19 @@ class GetIntessesClientes {
       required String usuarioid,
       required String interesseId}) async {
     final userIds = Provider.of<UsuarioIds>(contextAux, listen: false);
-    print("${userIds.idToken}");
+
     try {
       final returnData = await http.get(
         Uri.parse(
-            "https://cliente-pro.onrender.com/filtrar-interesses-clientes?interesseId=$interesseId}&usuarioId=$usuarioid"),
+            "https://cliente-pro.onrender.com/filtrar-interesses-clientes?interesseId=$interesseId&usuarioId=$usuarioid"),
         headers: {
           'Authorization': "${userIds.idToken}",
         },
       );
-      print(returnData.body);
 
       if (returnData.statusCode >= 200 && returnData.statusCode < 206) {
         if (returnData.body == '') return '';
         var dataReturn = await json.decode(returnData.body);
-        print(dataReturn);
         return dataReturn;
       }
 
@@ -64,15 +61,7 @@ class GetIntessesClientes {
         }
         return null;
       }
-      GlobalsAlert(contextAux).alertWarning(
-        contextAux,
-        text: "Faça login novamente para continuar usando o aplicativo.",
-        onTap: () {
-          //GlobalsFunctions().btnSair(contextAux);
-          Navigator.of(contextAux).pushReplacement(
-              MaterialPageRoute(builder: (context) => LoginPage()));
-        },
-      );
+      print(returnData.body);
     } catch (error) {
       print("error: $error");
     }

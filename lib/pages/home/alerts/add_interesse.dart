@@ -1,6 +1,8 @@
 import 'package:clientepro/globals/globals_form.dart';
 import 'package:clientepro/globals/globals_sizes.dart';
 import 'package:clientepro/globals/globals_styles.dart';
+import 'package:clientepro/model/interesses_model.dart';
+import 'package:clientepro/request/relacoes/get_interesses.dart';
 import 'package:clientepro/request/relacoes/post_interesses.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -17,7 +19,7 @@ class AddInterest {
     final globalsThemeVar =
         Provider.of<GlobalsThemeVar>(context, listen: false);
     final homestore = Provider.of<HomeStore>(context, listen: false);
-    final globalsStore = Provider.of<GlobalsStore>(context);
+    final globalsStore = Provider.of<GlobalsStore>(context, listen: false);
     var path = '';
     homestore.restartSelectedListImage();
 
@@ -70,40 +72,53 @@ class AddInterest {
                 TextStyle(color: globalsThemeVar.iGlobalsColors.textColorFraco),
           ),
         ),
-        ElevatedButton(
-          onPressed: () async {
-            globalsStore.setLoading(true);
-            await PostInteresses().postInteresses(context,
-                title: titleController.text, path: path);
-            globalsStore.setLoading(false);
-            Navigator.pop(context);
-          },
-          style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all<Color>(
-              globalsThemeVar.iGlobalsColors.secundaryColor,
+        Observer(builder: (_) {
+          return ElevatedButton(
+            onPressed: () async {
+              homestore.setListInteressesClear();
+              globalsStore.setLoading(true);
+              var result = await PostInteresses().postInteresses(context,
+                  title: titleController.text, path: path);
+              if (result != null) {
+                var list = await GetAllInteresses().getAllInteresses(context);
+                if (list != null) {
+                  list.forEach((interesse) {
+                    homestore
+                        .setListInteresses(InteressesModel.fromJson(interesse));
+                  });
+                }
+              }
+
+              globalsStore.setLoading(false);
+              Navigator.pop(context);
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(
+                globalsThemeVar.iGlobalsColors.secundaryColor,
+              ),
             ),
-          ),
-          child: globalsStore.loading
-              ? Container(
-                  child: SizedBox(
-                    height: GlobalsSizes().marginSize,
-                    width: GlobalsSizes().marginSize,
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        strokeWidth: 3,
-                        color: globalsThemeVar
-                            .iGlobalsColors.textColorPrimaryInverse,
+            child: globalsStore.loading
+                ? Container(
+                    child: SizedBox(
+                      height: GlobalsSizes().marginSize,
+                      width: GlobalsSizes().marginSize,
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          strokeWidth: 3,
+                          color: globalsThemeVar
+                              .iGlobalsColors.textColorPrimaryInverse,
+                        ),
                       ),
                     ),
+                  )
+                : Text(
+                    'Adicionar',
+                    style: TextStyle(
+                        color: globalsThemeVar
+                            .iGlobalsColors.textColorPrimaryInverse),
                   ),
-                )
-              : Text(
-                  'Adicionar',
-                  style: TextStyle(
-                      color: globalsThemeVar
-                          .iGlobalsColors.textColorPrimaryInverse),
-                ),
-        ),
+          );
+        }),
       ],
     );
   }

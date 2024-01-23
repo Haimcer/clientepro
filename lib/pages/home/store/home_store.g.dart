@@ -25,6 +25,22 @@ mixin _$HomeStore on _HomeStore, Store {
     });
   }
 
+  late final _$listModelMobXClientAtom =
+      Atom(name: '_HomeStore.listModelMobXClient', context: context);
+
+  @override
+  ObservableList<ClienteModel> get listModelMobXClient {
+    _$listModelMobXClientAtom.reportRead();
+    return super.listModelMobXClient;
+  }
+
+  @override
+  set listModelMobXClient(ObservableList<ClienteModel> value) {
+    _$listModelMobXClientAtom.reportWrite(value, super.listModelMobXClient, () {
+      super.listModelMobXClient = value;
+    });
+  }
+
   late final _$isSelectedAtom =
       Atom(name: '_HomeStore.isSelected', context: context);
 
@@ -75,6 +91,50 @@ mixin _$HomeStore on _HomeStore, Store {
 
   late final _$_HomeStoreActionController =
       ActionController(name: '_HomeStore', context: context);
+
+  @override
+  void setAllListModelMobXClient(List<ClienteModel> list) {
+    final _$actionInfo = _$_HomeStoreActionController.startAction(
+        name: '_HomeStore.setAllListModelMobXClient');
+    try {
+      return super.setAllListModelMobXClient(list);
+    } finally {
+      _$_HomeStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void listReloadModelMobXClient() {
+    final _$actionInfo = _$_HomeStoreActionController.startAction(
+        name: '_HomeStore.listReloadModelMobXClient');
+    try {
+      return super.listReloadModelMobXClient();
+    } finally {
+      _$_HomeStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setListModelMobXClient(ClienteModel ficha) {
+    final _$actionInfo = _$_HomeStoreActionController.startAction(
+        name: '_HomeStore.setListModelMobXClient');
+    try {
+      return super.setListModelMobXClient(ficha);
+    } finally {
+      _$_HomeStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void setListModelMobXClientXClear() {
+    final _$actionInfo = _$_HomeStoreActionController.startAction(
+        name: '_HomeStore.setListModelMobXClientXClear');
+    try {
+      return super.setListModelMobXClientXClear();
+    } finally {
+      _$_HomeStoreActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void restartSelectedListImage() {
@@ -190,6 +250,7 @@ mixin _$HomeStore on _HomeStore, Store {
   String toString() {
     return '''
 listInteresses: ${listInteresses},
+listModelMobXClient: ${listModelMobXClient},
 isSelected: ${isSelected},
 isSelectedInteresse: ${isSelectedInteresse},
 listImage: ${listImage}

@@ -16,6 +16,7 @@ class HomePrincipalFunctions {
   Future homeFunctionPrincipal(
       UsuarioInfos usuarioInfos, HomeStore homeStore) async {
     homeStore.setListInteressesClear();
+    homeStore.setListModelMobXClientXClear();
     listCliente = [];
     try {
       var result = await GetAllClientes().getAllClientes(context,
@@ -26,6 +27,8 @@ class HomePrincipalFunctions {
           listCliente.add(ClienteModel.fromJson(cliente));
         });
       }
+
+      homeStore.setAllListModelMobXClient(listCliente);
 
       var resultInteresses = await GetAllInteresses().getAllInteresses(context);
       if (resultInteresses != null) {

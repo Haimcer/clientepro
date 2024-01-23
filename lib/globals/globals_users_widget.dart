@@ -88,8 +88,15 @@ class GlobalsUsersWidget {
     );
   }
 
-  Widget imgRedondaUser(double size,
-      {String? networkImage, String? nome, bool? borda, bool? colorborda}) {
+  Widget imgRedondaUser(
+    double size, {
+    String? img,
+    String? nome,
+    bool? borda,
+    Color? colorborda,
+    bool? isImageLocal,
+    double? widthBorda,
+  }) {
     final globalsThemeVar =
         Provider.of<GlobalsThemeVar>(context, listen: false);
     print(globalsThemeVar.iGlobalsColors.colorBackgroundImage);
@@ -123,19 +130,24 @@ class GlobalsUsersWidget {
             decoration: BoxDecoration(
               border: borda == true
                   ? Border.all(
-                      width: 5.2,
+                      width: widthBorda ?? 5.2,
                       color: colorborda ??
                           globalsThemeVar.iGlobalsColors.tertiaryColor)
                   : Border.all(),
               shape: BoxShape.circle,
-              color: globalsThemeVar.iGlobalsColors.primaryColor,
+              color: globalsThemeVar.iGlobalsColors.tertiaryColor,
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(500)),
-              child: Image.network(
-                "https://ui-avatars.com/api/?name=$nome&background=${corAleatoria}&color=FFFFFF",
-                fit: BoxFit.cover,
-              ),
+              child: isImageLocal ?? false
+                  ? Image.asset(
+                      img ?? 'assets/interesses/foto.png',
+                      fit: BoxFit.cover,
+                    )
+                  : Image.network(
+                      "https://ui-avatars.com/api/?name=$nome&background=${corAleatoria}&color=FFFFFF",
+                      fit: BoxFit.cover,
+                    ),
             )),
       ],
     );

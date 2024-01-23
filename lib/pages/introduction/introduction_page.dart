@@ -9,7 +9,7 @@ import '../../globals/globals_sizes.dart';
 import '../../globals/globals_styles.dart';
 import '../../globals/globals_widgets.dart';
 import '../../globals/theme_controller.dart';
-import '../home/page_home_principal.dart';
+import '../../login/login_page.dart';
 
 class Introduction extends StatefulWidget {
   const Introduction({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class IntroductionState extends State<Introduction> {
   void _onIntroEnd(context) {
     _togglePageViewedStatus();
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (_) => PageHomePrincipal()),
+      MaterialPageRoute(builder: (_) => LoginPage()),
     );
   }
 
@@ -37,7 +37,6 @@ class IntroductionState extends State<Introduction> {
     return Container(
         margin: EdgeInsets.all(GlobalsSizes().marginSize),
         padding: EdgeInsets.all(GlobalsSizes().marginSize / 2),
-        // width: width,
         decoration: BoxDecoration(
           boxShadow: [
             GlobalsWidgets(context).sombreadoBoxShadow(),
@@ -63,89 +62,55 @@ class IntroductionState extends State<Introduction> {
             fontWeight: GlobalsStyles(context).negritoFont,
             color: globalsThemeVar.iGlobalsColors.primaryColor),
         bodyTextStyle: bodyStyle,
-        //bodyPadding: EdgeInsets.all(GlobalsSizes().marginSize),
         pageColor: globalsThemeVar.iGlobalsColors.tertiaryColor,
-        //imagePadding: EdgeInsets.only(top: GlobalsSizes().marginSize*4),
         imageAlignment: Alignment.center,
         bodyAlignment: Alignment.bottomCenter);
 
     return IntroductionScreen(
       key: introKey,
-
       globalBackgroundColor: globalsThemeVar.iGlobalsColors.tertiaryColor,
-      // allowImplicitScrolling: true,
-      // autoScrollDuration: 2000000,
-      // infiniteAutoScroll: true,
-      /*globalHeader: Align(
-        alignment: Alignment.topRight,
-        child: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(
-                top: GlobalsSizes().marginSize,
-                right: GlobalsSizes().marginSize),
-            child: _buildImage('assets/images/app/logo-512-lar-transp.png', 80),
-          ),
-        ),
-      ),*/
-      /*globalHeader: const SizedBox(
-        width: double.infinity,
-        height: 30,
-      ),*/
-      /*globalFooter: const SizedBox(
-        width: double.infinity,
-        height: 30,
-      ),*/
       pages: [
         PageViewModel(
           reverse: true,
-          image: _buildImage(
-              'assets/images/introduction/intro_tela1.png', widthSize),
+          image: _buildImage('assets/introduction/intro_tela1.png', widthSize),
           title: "Bem-Vindo ao ClientePRO!",
           body:
-              "Com o ClientePRO você encontra receitas Incríveis e pode gerar novas receitas com os INGREDIENTES que tiver em CASA.",
+              "Aqui, você gerencia seus clientes e seus interesses, como video games, séries, etc... Descubra novas maneiras de se conectar com seus clientes e ofereça experiências personalizadas.",
           decoration: pageDecoration,
         ),
         PageViewModel(
           reverse: true,
-          title: "Ingredientes Limitados, Receitas Ilimitadas",
-          body: "Receitas deliciosas estão a um toque de distância!",
-          image: _buildImage(
-              'assets/images/introduction/intro_tela2.png', widthSize),
-          decoration: pageDecoration,
-        ),
-        PageViewModel(
-          reverse: true,
-          title: "Cozinhe, Compartilhe, Conecte-se",
+          title: "Clientes e Interesses Ilimitados",
           body:
-              "Siga outros cozinheiros apaixonados para descobrir suas criações únicas, compartilhe suas próprias receitas para conquistar seguidores e celebrar juntos a arte de cozinhar.",
-          image: _buildImage(
-              'assets/images/introduction/intro_tela3.png', widthSize),
+              "Explore receitas incríveis para manter seus clientes engajados. Encontre a combinação perfeita entre seus serviços e os interesses deles.",
+          image: _buildImage('assets/introduction/intro_tela2.png', widthSize),
           decoration: pageDecoration,
         ),
         PageViewModel(
           reverse: true,
-          title: "Vamos Lá?",
+          title: "Conecte-se através dos Interesses",
           body:
-              "Agora, é hora de transformar sua jornada na cozinha em algo ainda mais especial. Vamos lá, a próxima deliciosa aventura está apenas a um toque de distância!",
-          image: _buildImage(
-              'assets/images/app/logo-512-lar-transp.png', widthSize / 2),
+              "Conecte-se com seus clientes através de seus interesses. Descubra o poder de um gerenciador que entende as preferências individuais, como video games e séries. Transforme suas interações em algo único!",
+          image: _buildImage('assets/introduction/intro_tela3.png', widthSize),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          reverse: true,
+          title: "Vamos Começar?",
+          body:
+              "Agora é a hora de transformar a gestão de clientes em algo ainda mais especial. Vamos lá! A próxima emocionante aventura está a um toque de distância. Gerencie clientes e interesses de forma eficaz com o ClientePRO!",
+          image: _buildImage('assets/logo.png', widthSize / 2),
           decoration: pageDecoration,
         ),
       ],
       onDone: () => _onIntroEnd(context),
-      onSkip: () => _onIntroEnd(context), // You can override onSkip callback
+      onSkip: () => _onIntroEnd(context),
       showSkipButton: false,
       skipOrBackFlex: 0,
       nextFlex: 0,
-
       showBackButton: true,
-      //rtl: true, // Display as right-to-left
       back: Icon(Icons.arrow_back_ios_new_rounded,
           color: globalsThemeVar.iGlobalsColors.primaryColor),
-      /*skip: Text('Pular',
-          style: TextStyle(
-              fontWeight: GlobalsStyles().negritoFont,
-              color: globalsThemeVar.iGlobalsColors.primaryColor)),*/
       next: Icon(Icons.arrow_forward_ios_rounded,
           color: globalsThemeVar.iGlobalsColors.primaryColor),
       done: Text('Finalizar',

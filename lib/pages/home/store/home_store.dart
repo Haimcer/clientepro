@@ -1,6 +1,8 @@
 import 'package:clientepro/model/interesses_model.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../model/cliente_model.dart';
+
 part 'home_store.g.dart';
 
 class HomeStore = _HomeStore with _$HomeStore;
@@ -9,6 +11,10 @@ abstract class _HomeStore with Store {
   @observable
   ObservableList<InteressesModel> listInteresses =
       ObservableList<InteressesModel>();
+
+  @observable
+  ObservableList<ClienteModel> listModelMobXClient =
+      ObservableList<ClienteModel>();
 
   @observable
   bool isSelected = false;
@@ -27,6 +33,29 @@ abstract class _HomeStore with Store {
     {'image': 'assets/interesses/serie.png', 'isSelected': false},
     {'image': 'assets/interesses/viajando.png', 'isSelected': false},
   ]);
+
+  @action
+  void setAllListModelMobXClient(List<ClienteModel> list) {
+    listModelMobXClient.clear();
+    listModelMobXClient.addAll(list);
+  }
+
+  @action
+  void listReloadModelMobXClient() {
+    final list = List<ClienteModel>.from(listModelMobXClient);
+    listModelMobXClient.clear();
+    setAllListModelMobXClient(list);
+  }
+
+  @action
+  void setListModelMobXClient(ClienteModel ficha) {
+    listModelMobXClient.add(ficha);
+  }
+
+  @action
+  void setListModelMobXClientXClear() {
+    listModelMobXClient.clear();
+  }
 
   @action
   void restartSelectedListImage() {

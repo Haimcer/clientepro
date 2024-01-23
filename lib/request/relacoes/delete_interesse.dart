@@ -14,7 +14,7 @@ class DeleteInteresseCliente {
     try {
       final response = await http.delete(
         Uri.parse(
-            "https://cliente-pro.onrender.com/excluir-interesses-cliente/$clientId/$interesseId"),
+            "https://cliente-pro.onrender.com/excluir-interesses-cliente/$interesseId?clienteId=$clientId"),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': "${userIds.idToken}",
@@ -57,16 +57,17 @@ class DeleteInteresseCliente {
       }
 
       if (response.statusCode == 404) {
-        GlobalsAlert(context).alertWarning(
-          context,
-          text: "Conta não localizada. Por favor, efetue o login novamente.",
-          onTap: () {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => LoginPage()),
-              (route) => false,
-            );
-          },
-        );
+        print(response.body);
+        // GlobalsAlert(context).alertWarning(
+        //   context,
+        //   text: "Conta não localizada. Por favor, efetue o login novamente.",
+        //   onTap: () {
+        //     Navigator.of(context).pushAndRemoveUntil(
+        //       MaterialPageRoute(builder: (context) => LoginPage()),
+        //       (route) => false,
+        //     );
+        //   },
+        // );
         return false;
       }
 

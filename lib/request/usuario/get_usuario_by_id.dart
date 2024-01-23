@@ -23,10 +23,6 @@ class GetUsuarioById {
         },
       );
 
-      print(
-          'USUARIO *******************************************************************');
-      print(returnData.body);
-
       if (returnData.statusCode >= 200 && returnData.statusCode < 206) {
         if (returnData.body == '') return '';
         var dataReturn = await json.decode(returnData.body);
@@ -70,7 +66,6 @@ class GetUsuarioById {
         }
         return null;
       }
-      print('AAAAAAAAAAAAAAAAAAAAAAAAAA');
       print(returnData.body);
     } catch (e) {
       print(e);
